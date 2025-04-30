@@ -42,4 +42,14 @@ class MasterLookupHelper
 
         return self::$getKeyByLookUpTypeCache[$lookUpType];
     }
+
+    public static function getIdsByType(string $lookupType, array $lookupValue)
+    {
+        return \DB::table(self::$table)
+            ->select([self::$id])
+            ->where(self::$type, $lookupType)
+            ->whereIn(self::$value, $lookupValue)
+            ->where('is_active', '=', 1)
+            ->pluck(self::$id);
+    }
 }
